@@ -8,6 +8,7 @@ import { CourseModule } from './course/course.module';
 import { LessonModule } from './lesson/lesson.module';
 import { UploadContentModule } from './upload-content/upload-content.module';
 import { UserModule } from './user/user.module';
+import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { UserModule } from './user/user.module';
     CourseModule,
     LessonModule,
     UploadContentModule,
+    TaskModule,
   ],
 })
 export class AppModule {}
