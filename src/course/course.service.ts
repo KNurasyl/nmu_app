@@ -17,6 +17,10 @@ export class CourseService {
     return await course.save();
   }
 
+  async findByNameAndLang(courseName: string, lang: string) {
+    return await this.courseModel.findOne({ courseName, lang });
+  }
+
   async findAll(): Promise<Course[]> {
     return await this.courseModel.find().exec();
   }

@@ -2,25 +2,90 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Course {
+  _id: ID!
+  courseName: String!
+  description: String
+  lang: String!
+  lessons: [Lesson]
+}
+
+input CreateCourseInput {
+  courseName: String!
+  description: String!
+  lang: String!
+}
+
+input CreateLessonInput {
+  course: String!
+  description: String!
+  lang: String!
+  lessonName: String!
+  order: Float!
+  videoUrl: String!
+}
+
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  password: String!
+  phoneNumber: String!
+  userName: String!
+  userRole: String!
+}
+
+type Lesson {
+  _id: ID!
+  course: Course!
+  description: String
+  lang: String!
+  lessonName: String!
+  order: Float!
+  videoUrl: String
 }
 
 type Mutation {
+  createCourse(createCourseInput: CreateCourseInput!): Course!
+  createLesson(createLessonInput: CreateLessonInput!): Lesson!
   createUser(createUserInput: CreateUserInput!): User!
-  removeUser(id: Int!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeCourseById(id: String!): Course!
+  removeLessonById(id: String!): Lesson!
+  removeUserById(id: String!): User!
+  updateCourseById(updateCourseInput: UpdateCourseInput!): Course!
+  updateLessonById(updateLessonInput: UpdateLessonInput!): Lesson!
+  updateUserById(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
-  user(id: Int!): User!
+  getCourseById(id: String!): Course!
+  getCourses: [Course!]!
+  getLessonById(id: String!): Lesson!
+  getLessons: [Lesson!]!
+  getUserById(id: String!): User!
+  getUsers: [User!]!
+}
+
+input UpdateCourseInput {
+  courseName: String
+  description: String
+  id: Int!
+  lang: String
+}
+
+input UpdateLessonInput {
+  course: String
+  description: String
+  id: Int!
+  lang: String
+  lessonName: String
+  order: Float
+  videoUrl: String
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
   id: Int!
+  password: String
+  phoneNumber: String
+  userName: String
+  userRole: String
 }
 
 type User {

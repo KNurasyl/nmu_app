@@ -4,9 +4,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
-import { UserModule } from './user/user.module';
 import { CourseModule } from './course/course.module';
 import { LessonModule } from './lesson/lesson.module';
+import { UploadContentModule } from './upload-content/upload-content.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { LessonModule } from './lesson/lesson.module';
     UserModule,
     CourseModule,
     LessonModule,
+    UploadContentModule,
   ],
 })
 export class AppModule {}

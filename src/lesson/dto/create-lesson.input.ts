@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsMongoId, IsNumber, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class CreateLessonInput {
@@ -23,4 +23,8 @@ export class CreateLessonInput {
   @Field()
   @IsNumber()
   order: number;
+
+  @Field()
+  @IsMongoId()
+  course: string;
 }
