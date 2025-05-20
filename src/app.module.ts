@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { join } from 'path';
         dbName: configService.get<string>('MONGODB_DB'),
       }),
     }),
+    UserModule,
   ],
 })
 export class AppModule {}
