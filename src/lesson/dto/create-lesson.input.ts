@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class CreateLessonInput {
@@ -15,4 +15,12 @@ export class CreateLessonInput {
   @Field()
   @IsOptional()
   videoUrl: string;
+
+  @Field()
+  @IsString({ message: 'Language name must be string' })
+  lang: string;
+
+  @Field()
+  @IsNumber()
+  order: number;
 }

@@ -8,6 +8,10 @@ export class CreateCourseInput {
   courseName: string;
 
   @Field()
+  @IsString({ message: 'Language name must be string' })
+  lang: string;
+
+  @Field()
   @IsOptional()
   @IsString({ message: 'Description name must be string' })
   description: string;

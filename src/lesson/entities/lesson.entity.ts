@@ -12,6 +12,10 @@ export class Lesson {
   @Prop()
   lessonName: string;
 
+  @Field()
+  @Prop()
+  lang: string;
+
   @Field({ nullable: true })
   @Prop()
   description?: string;
@@ -19,6 +23,10 @@ export class Lesson {
   @Field({ nullable: true })
   @Prop()
   videoUrl?: string;
+
+  @Field()
+  @Prop()
+  order: number;
 }
 
 export type LessonDocument = Lesson & Document;

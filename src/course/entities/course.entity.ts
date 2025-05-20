@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -11,6 +11,10 @@ export class Course {
   @Field()
   @Prop()
   courseName: string;
+
+  @Field()
+  @Prop()
+  lang: string;
 
   @Field({ nullable: true })
   @Prop()
