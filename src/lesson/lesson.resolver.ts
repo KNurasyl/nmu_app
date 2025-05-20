@@ -1,8 +1,8 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { LessonService } from './lesson.service';
-import { Lesson } from './entities/lesson.entity';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateLessonInput } from './dto/create-lesson.input';
 import { UpdateLessonInput } from './dto/update-lesson.input';
+import { Lesson } from './entities/lesson.entity';
+import { LessonService } from './lesson.service';
 
 @Resolver(() => Lesson)
 export class LessonResolver {
@@ -13,23 +13,23 @@ export class LessonResolver {
     return this.lessonService.create(createLessonInput);
   }
 
-  @Query(() => [Lesson], { name: 'lesson' })
+  @Query(() => [Lesson], { name: 'getLessons' })
   findAll() {
     return this.lessonService.findAll();
   }
 
-  @Query(() => Lesson, { name: 'lesson' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  @Query(() => Lesson, { name: 'getLessonById' })
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.lessonService.findOne(id);
   }
 
-  @Mutation(() => Lesson)
+  @Mutation(() => Lesson, { name: 'updateLessonById' })
   updateLesson(@Args('updateLessonInput') updateLessonInput: UpdateLessonInput) {
     return this.lessonService.update(updateLessonInput.id, updateLessonInput);
   }
 
-  @Mutation(() => Lesson)
-  removeLesson(@Args('id', { type: () => Int }) id: number) {
+  @Mutation(() => Lesson, { name: 'removeLessonById' })
+  removeLesson(@Args('id', { type: () => String }) id: string) {
     return this.lessonService.remove(id);
   }
 }

@@ -1,26 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateLessonInput } from './dto/create-lesson.input';
 import { UpdateLessonInput } from './dto/update-lesson.input';
+import { Lesson, LessonDocument } from './entities/lesson.entity';
 
 @Injectable()
 export class LessonService {
-  create(createLessonInput: CreateLessonInput) {
-    return 'This action adds a new lesson';
+  constructor(
+    @InjectModel(Lesson.name)
+    private lessonModel: Model<LessonDocument>,
+  ) {}
+
+  async create(createLessonInput: CreateLessonInput): Promise<Lesson> {
+    const lesson = new this.lessonModel(createLessonInput);
+    return await lesson.save();
   }
 
-  findAll() {
-    return `This action returns all lesson`;
+  async findAll(): Promise<Lesson[]> {
+    return await this.lessonModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} lesson`;
+  async findOne(id: string): Promise<Lesson> {
+    const lesson = await this.lessonModel.findById(id);
+    if (!lesson) throw new NotFoundException(`Lesson #${id} not found`);
+    return lesson;
   }
 
-  update(id: number, updateLessonInput: UpdateLessonInput) {
-    return `This action updates a #${id} lesson`;
+  async update(id: string, updateLessonInput: UpdateLessonInput): Promise<Lesson> {
+    const lesson = await this.lessonModel.findByIdAndUpdate(id, updateLessonInput, {
+      new: true,
+      runValidators: true,
+    });
+    if (!lesson) throw new NotFoundException(`Lesson #${id} not found`);
+    return lesson;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} lesson`;
+  async remove(id: string): Promise<Lesson> {
+    const lesson = await this.lessonModel.findByIdAndDelete(id);
+    if (!lesson) throw new NotFoundException(`Lesson #${id} not found`);
+    return lesson;
   }
 }
