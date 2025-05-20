@@ -1,0 +1,21 @@
+import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+
+@ObjectType()
+@Schema({ timestamps: true })
+export class Course {
+  @Field(() => ID)
+  _id: string;
+
+  @Field()
+  @Prop()
+  courseName: string;
+
+  @Field({ nullable: true })
+  @Prop()
+  description?: string;
+}
+
+export type CourseDocument = Course & Document;
+export const CourseSchema = SchemaFactory.createForClass(Course);
