@@ -1,17 +1,21 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { CourseModule } from './course/course.module';
 import { LessonModule } from './lesson/lesson.module';
-import { UploadContentModule } from './upload-content/upload-content.module';
-import { UserModule } from './user/user.module';
 import { TaskModule } from './task/task.module';
+import { UploadContentModule } from './upload-content/upload-content.module';
+import { UserLessonProgressModule } from './user-lesson-progress/user-lesson-progress.module';
+import { UserTaskProgressModule } from './user-task-progress/user-task-progress.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
+    EventEmitterModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
@@ -40,6 +44,8 @@ import { TaskModule } from './task/task.module';
     LessonModule,
     UploadContentModule,
     TaskModule,
+    UserTaskProgressModule,
+    UserLessonProgressModule,
   ],
 })
 export class AppModule {}

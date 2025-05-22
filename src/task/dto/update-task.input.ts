@@ -1,10 +1,10 @@
-import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
+import { Field, InputType, PartialType } from '@nestjs/graphql';
 import { IsMongoId } from 'class-validator';
 import { CreateTaskInput } from './create-task.input';
 
 @InputType()
 export class UpdateTaskInput extends PartialType(CreateTaskInput) {
-  @Field(() => Int)
+  @Field()
   @IsMongoId()
   id: string;
 }
