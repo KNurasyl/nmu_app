@@ -1,4 +1,4 @@
-import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadContentService } from './upload-content.service';
 
@@ -10,5 +10,11 @@ export class UploadContentController {
   @UseInterceptors(FileInterceptor('file'))
   uploadExcel(@UploadedFile() file: Express.Multer.File) {
     return this.uploadContentService.uploadAndSave(file);
+  }
+
+  @Post('json/:type')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadTasksJson(@Param('type') type: string, @UploadedFile() file: Express.Multer.File) {
+    return this.uploadContentService.uploadTasksByType(file, type);
   }
 }
