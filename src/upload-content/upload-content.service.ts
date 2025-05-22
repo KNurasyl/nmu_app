@@ -77,6 +77,7 @@ export class UploadContentService {
           lessonName: row.lessonName,
           description: row.description || '',
           videoUrl: row.videoUrl || '',
+          lessonCode: row.lessonCode || '',
           order: row.order || 0,
           lang: row.lang || 'kz',
           course: course._id,

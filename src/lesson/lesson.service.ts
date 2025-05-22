@@ -22,7 +22,7 @@ export class LessonService {
   }
 
   async findOne(id: string): Promise<Lesson> {
-    const lesson = await this.lessonModel.findById(id);
+    const lesson = await this.lessonModel.findById(id).populate('tasks').exec();
     if (!lesson) throw new NotFoundException(`Lesson #${id} not found`);
     return lesson;
   }

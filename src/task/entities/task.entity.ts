@@ -1,8 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { GraphQLJSONObject } from 'graphql-type-json';
-import mongoose from 'mongoose';
-import { Lesson } from 'src/lesson/entities/lesson.entity';
 
 @Schema({ timestamps: true })
 @ObjectType()
@@ -10,25 +8,23 @@ export class Task {
   @Field(() => String)
   _id: string;
 
-  @Prop({ required: true })
+  @Prop()
   @Field()
   type: string;
 
-  @Prop({ required: true })
-  @Field()
-  lessonId: string;
+  @Prop({ type: Object, required: true })
+  @Field(() => GraphQLJSONObject)
+  data: {
+    [lang: string]: Record<string, any>[];
+  };
 
-  @Prop({ required: false })
   @Field({ nullable: true })
+  @Prop()
   description?: string;
 
-  @Prop({ type: [Object], required: true })
-  @Field(() => [GraphQLJSONObject])
-  data: Record<string, any>[];
-
-  @Field(() => Lesson)
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Lesson' })
-  lesson: Lesson;
+  @Prop()
+  @Field()
+  lessonCode: string;
 }
 
 export type TaskDocument = Task & Document;

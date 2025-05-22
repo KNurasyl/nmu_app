@@ -20,9 +20,17 @@ input CreateLessonInput {
   course: String!
   description: String!
   lang: String!
+  lessonCode: String!
   lessonName: String!
   order: Float!
   videoUrl: String!
+}
+
+input CreateTaskInput {
+  data: JSONObject
+  description: String!
+  lessonCode: String!
+  type: String!
 }
 
 input CreateUserInput {
@@ -32,35 +40,56 @@ input CreateUserInput {
   userRole: String!
 }
 
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+
 type Lesson {
   _id: ID!
   course: Course!
   description: String
   lang: String!
+  lessonCode: String!
   lessonName: String!
   order: Float!
+  tasks: [Task]
   videoUrl: String
 }
 
 type Mutation {
   createCourse(createCourseInput: CreateCourseInput!): Course!
   createLesson(createLessonInput: CreateLessonInput!): Lesson!
+  createTask(createTaskInput: CreateTaskInput!): Task!
   createUser(createUserInput: CreateUserInput!): User!
   removeCourseById(id: String!): Course!
   removeLessonById(id: String!): Lesson!
+  removeTaskById(id: String!): Task!
   removeUserById(id: String!): User!
   updateCourseById(updateCourseInput: UpdateCourseInput!): Course!
   updateLessonById(updateLessonInput: UpdateLessonInput!): Lesson!
+  updateTaskById(updateTaskInput: UpdateTaskInput!): Task!
   updateUserById(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
+  getAllTasks: [Task!]!
   getCourseById(id: String!): Course!
   getCourses: [Course!]!
   getLessonById(id: String!): Lesson!
   getLessons: [Lesson!]!
+  getTaskById(id: String!): Task!
+  getTasksByLesson(lessonId: String!): [Task!]!
   getUserById(id: String!): User!
   getUsers: [User!]!
+}
+
+type Task {
+  _id: String!
+  data: JSONObject!
+  description: String
+  lessonCode: String!
+  type: String!
 }
 
 input UpdateCourseInput {
@@ -75,9 +104,18 @@ input UpdateLessonInput {
   description: String
   id: Int!
   lang: String
+  lessonCode: String
   lessonName: String
   order: Float
   videoUrl: String
+}
+
+input UpdateTaskInput {
+  data: JSONObject
+  description: String
+  id: Int!
+  lessonCode: String
+  type: String
 }
 
 input UpdateUserInput {

@@ -30,6 +30,10 @@ export class Lesson {
   @Prop()
   order: number;
 
+  @Field()
+  @Prop()
+  lessonCode: string;
+
   @Field(() => Course)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Course' })
   course: Course;
@@ -43,8 +47,8 @@ export const LessonSchema = SchemaFactory.createForClass(Lesson);
 
 LessonSchema.virtual('tasks', {
   ref: 'Task',
-  localField: '_id',
-  foreignField: 'Task',
+  localField: 'lessonCode',
+  foreignField: 'lessonCode',
 });
 
 LessonSchema.set('toObject', { virtuals: true });
