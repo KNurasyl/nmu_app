@@ -22,7 +22,7 @@ export class UserTaskProgressService {
   ) {}
 
   async create(input: CreateUserTaskProgressInput): Promise<UserTaskProgress> {
-    const { userId, taskId, lessonId } = input;
+    const { userId, taskId, lessonId, courseId } = input;
 
     const user = await this.userService.findOne(userId);
     const task = await this.taskService.findOne(taskId);
@@ -48,6 +48,7 @@ export class UserTaskProgressService {
     this.eventEmitter.emit('task.completed', {
       userId,
       lessonId,
+      courseId,
       lessonCode: task.lessonCode,
     });
 

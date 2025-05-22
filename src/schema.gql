@@ -33,6 +33,18 @@ input CreateTaskInput {
   type: String!
 }
 
+input CreateUserCourseProgressInput {
+  completed: Boolean! = false
+
+  """Дата выполнения"""
+  completedAt: DateTime
+  courseId: ID!
+
+  """Оценка или процент выполнения (0–100)"""
+  score: Int
+  userId: ID!
+}
+
 input CreateUserInput {
   password: String!
   phoneNumber: String!
@@ -57,6 +69,7 @@ input CreateUserTaskProgressInput {
 
   """Дата выполнения"""
   completedAt: DateTime
+  courseId: ID!
   lessonId: ID!
 
   """Оценка или процент выполнения (0–100)"""
@@ -92,18 +105,21 @@ type Mutation {
   createLesson(createLessonInput: CreateLessonInput!): Lesson!
   createTask(createTaskInput: CreateTaskInput!): Task!
   createUser(createUserInput: CreateUserInput!): User!
+  createUserCourseProgress(createUserCourseProgressInput: CreateUserCourseProgressInput!): UserCourseProgress!
   createUserLessonProgress(createUserLessonProgressInput: CreateUserLessonProgressInput!): UserLessonProgress!
   createUserTaskProgress(createUserTaskProgressInput: CreateUserTaskProgressInput!): UserTaskProgress!
   removeCourseById(id: String!): Course!
   removeLessonById(id: String!): Lesson!
   removeTaskById(id: String!): Task!
   removeUserById(id: String!): User!
+  removeUserCourseProgress(id: String!): UserCourseProgress!
   removeUserLessonProgress(id: String!): UserLessonProgress!
   removeUserTaskProgress(id: String!): UserTaskProgress!
   updateCourseById(updateCourseInput: UpdateCourseInput!): Course!
   updateLessonById(updateLessonInput: UpdateLessonInput!): Lesson!
   updateTaskById(updateTaskInput: UpdateTaskInput!): Task!
   updateUserById(updateUserInput: UpdateUserInput!): User!
+  updateUserCourseProgress(updateUserCourseProgressInput: UpdateUserCourseProgressInput!): UserCourseProgress!
   updateUserLessonProgress(updateUserLessonProgressInput: UpdateUserLessonProgressInput!): UserLessonProgress!
   updateUserTaskProgress(updateUserTaskProgressInput: UpdateUserTaskProgressInput!): UserTaskProgress!
 }
@@ -118,6 +134,7 @@ type Query {
   getTasksByLesson(lessonId: String!): [Task!]!
   getUserById(id: String!): User!
   getUsers: [User!]!
+  userCourseProgress(id: String!): UserCourseProgress!
   userLessonProgress(id: String!): UserLessonProgress!
   userTaskProgress(id: String!): UserTaskProgress!
 }
@@ -156,6 +173,19 @@ input UpdateTaskInput {
   type: String
 }
 
+input UpdateUserCourseProgressInput {
+  completed: Boolean = false
+
+  """Дата выполнения"""
+  completedAt: DateTime
+  courseId: ID
+  id: String!
+
+  """Оценка или процент выполнения (0–100)"""
+  score: Int
+  userId: ID
+}
+
 input UpdateUserInput {
   id: String!
   password: String
@@ -182,6 +212,7 @@ input UpdateUserTaskProgressInput {
 
   """Дата выполнения"""
   completedAt: DateTime
+  courseId: ID
   id: String!
   lessonId: ID
 
@@ -196,6 +227,19 @@ type User {
   phoneNumber: String!
   userName: String!
   userRole: String!
+}
+
+type UserCourseProgress {
+  _id: ID!
+  completed: Boolean!
+
+  """Дата выполнения"""
+  completedAt: DateTime
+  course: Course!
+
+  """Optional score or percent (0-100)"""
+  score: Int
+  user: User!
 }
 
 type UserLessonProgress {

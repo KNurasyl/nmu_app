@@ -12,6 +12,7 @@ import { UploadContentModule } from './upload-content/upload-content.module';
 import { UserLessonProgressModule } from './user-lesson-progress/user-lesson-progress.module';
 import { UserTaskProgressModule } from './user-task-progress/user-task-progress.module';
 import { UserModule } from './user/user.module';
+import { UserCourseProgressModule } from './user-course-progress/user-course-progress.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { UserModule } from './user/user.module';
     TaskModule,
     UserTaskProgressModule,
     UserLessonProgressModule,
+    UserCourseProgressModule,
   ],
 })
 export class AppModule {}

@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { OnEvent } from '@nestjs/event-emitter';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { LessonService } from 'src/lesson/lesson.service';
@@ -13,6 +13,7 @@ import { UserLessonProgress, UserLessonProgressDocument } from './entities/user-
 @Injectable()
 export class UserLessonProgressService {
   constructor(
+    private readonly eventEmitter: EventEmitter2,
     @InjectModel(UserLessonProgress.name)
     private readonly lessonProgressModel: Model<UserLessonProgressDocument>,
     @InjectModel(UserTaskProgress.name)
@@ -62,8 +63,8 @@ export class UserLessonProgressService {
   }
 
   @OnEvent('task.completed')
-  async handleTaskCompleted(payload: { userId: string; lessonId: string; lessonCode: string }) {
-    const { userId, lessonId, lessonCode } = payload;
+  async handleTaskCompleted(payload: { userId: string; lessonId: string; lessonCode: string; courseId: string }) {
+    const { userId, lessonId, lessonCode, courseId } = payload;
 
     // 1. Найти все таски этого урока
     const tasks = await this.taskModel.find({ lessonCode });
@@ -100,6 +101,15 @@ export class UserLessonProgressService {
         score: percent,
         completed: isCompleted,
         completedAt: isCompleted ? new Date() : undefined,
+      });
+    }
+
+    // ✅ Эмитим событие о завершении урока
+    if (isCompleted) {
+      this.eventEmitter.emit('lesson.completed', {
+        userId,
+        lessonId,
+        courseId,
       });
     }
   }

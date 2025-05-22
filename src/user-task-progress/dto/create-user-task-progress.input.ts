@@ -15,6 +15,10 @@ export class CreateUserTaskProgressInput {
   @IsMongoId()
   lessonId: string;
 
+  @Field(() => ID)
+  @IsMongoId()
+  courseId: string;
+
   @Field(() => Boolean, { defaultValue: false })
   @IsBoolean()
   completed: boolean;
