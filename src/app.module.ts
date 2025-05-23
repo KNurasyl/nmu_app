@@ -13,6 +13,7 @@ import { UserLessonProgressModule } from './user-lesson-progress/user-lesson-pro
 import { UserTaskProgressModule } from './user-task-progress/user-task-progress.module';
 import { UserModule } from './user/user.module';
 import { UserCourseProgressModule } from './user-course-progress/user-course-progress.module';
+import { UserCourseAccessModule } from './user-course-access/user-course-access.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { UserCourseProgressModule } from './user-course-progress/user-course-pro
     UserTaskProgressModule,
     UserLessonProgressModule,
     UserCourseProgressModule,
+    UserCourseAccessModule,
   ],
 })
 export class AppModule {}
