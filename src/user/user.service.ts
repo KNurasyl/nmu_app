@@ -26,6 +26,12 @@ export class UserService {
     return user;
   }
 
+  async findByPhone(phone: string): Promise<User> {
+    const user = await this.userModel.findOne({ phoneNumber: phone }).exec();
+    if (!user) throw new NotFoundException(`User with phoneNumber: ${phone} not found`);
+    return user;
+  }
+
   async update(id: string, updateUserInput: UpdateUserInput): Promise<User> {
     const user = await this.userModel.findByIdAndUpdate(id, updateUserInput, {
       new: true,
@@ -39,5 +45,9 @@ export class UserService {
     const user = await this.userModel.findByIdAndDelete(id);
     if (!user) throw new NotFoundException(`User #${id} not found`);
     return user;
+  }
+
+  async updateRefreshToken(userId: string, refreshToken: string | null) {
+    return this.userModel.findByIdAndUpdate(userId, { refreshToken }, { new: true });
   }
 }

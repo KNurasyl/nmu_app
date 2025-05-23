@@ -2,6 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthResponse {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
 type Course {
   _id: ID!
   courseName: String!
@@ -31,6 +37,15 @@ input CreateTaskInput {
   description: String!
   lessonCode: String!
   type: String!
+}
+
+input CreateUserCourseAccessInput {
+  accessEndDate: DateTime
+  accessStartDate: DateTime
+  active: Boolean
+  comment: String
+  course: ID!
+  user: ID!
 }
 
 input CreateUserCourseProgressInput {
@@ -100,18 +115,29 @@ type Lesson {
   videoUrl: String
 }
 
+input LoginInput {
+  password: String!
+  phoneNumber: String!
+}
+
 type Mutation {
   createCourse(createCourseInput: CreateCourseInput!): Course!
   createLesson(createLessonInput: CreateLessonInput!): Lesson!
   createTask(createTaskInput: CreateTaskInput!): Task!
   createUser(createUserInput: CreateUserInput!): User!
+  createUserCourseAccess(createUserCourseAccessInput: CreateUserCourseAccessInput!): UserCourseAccess!
   createUserCourseProgress(createUserCourseProgressInput: CreateUserCourseProgressInput!): UserCourseProgress!
   createUserLessonProgress(createUserLessonProgressInput: CreateUserLessonProgressInput!): UserLessonProgress!
   createUserTaskProgress(createUserTaskProgressInput: CreateUserTaskProgressInput!): UserTaskProgress!
+  login(input: LoginInput!): AuthResponse!
+  logout(userId: String!): Boolean!
+  refreshTokens(input: RefreshInput!): AuthResponse!
+  register(input: RegisterInput!): AuthResponse!
   removeCourseById(id: String!): Course!
   removeLessonById(id: String!): Lesson!
   removeTaskById(id: String!): Task!
   removeUserById(id: String!): User!
+  removeUserCourseAccess(id: String!): UserCourseAccess!
   removeUserCourseProgress(id: String!): UserCourseProgress!
   removeUserLessonProgress(id: String!): UserLessonProgress!
   removeUserTaskProgress(id: String!): UserTaskProgress!
@@ -119,6 +145,7 @@ type Mutation {
   updateLessonById(updateLessonInput: UpdateLessonInput!): Lesson!
   updateTaskById(updateTaskInput: UpdateTaskInput!): Task!
   updateUserById(updateUserInput: UpdateUserInput!): User!
+  updateUserCourseAccess(updateUserCourseAccessInput: UpdateUserCourseAccessInput!): UserCourseAccess!
   updateUserCourseProgress(updateUserCourseProgressInput: UpdateUserCourseProgressInput!): UserCourseProgress!
   updateUserLessonProgress(updateUserLessonProgressInput: UpdateUserLessonProgressInput!): UserLessonProgress!
   updateUserTaskProgress(updateUserTaskProgressInput: UpdateUserTaskProgressInput!): UserTaskProgress!
@@ -134,9 +161,22 @@ type Query {
   getTasksByLesson(lessonId: String!): [Task!]!
   getUserById(id: String!): User!
   getUsers: [User!]!
+  userCourseAccess(id: String!): UserCourseAccess!
   userCourseProgress(id: String!): UserCourseProgress!
   userLessonProgress(id: String!): UserLessonProgress!
   userTaskProgress(id: String!): UserTaskProgress!
+}
+
+input RefreshInput {
+  refreshToken: String!
+  userId: ID!
+}
+
+input RegisterInput {
+  password: String!
+  phoneNumber: String!
+  userName: String!
+  userRole: String!
 }
 
 type Task {
@@ -171,6 +211,16 @@ input UpdateTaskInput {
   id: String!
   lessonCode: String
   type: String
+}
+
+input UpdateUserCourseAccessInput {
+  accessEndDate: DateTime
+  accessStartDate: DateTime
+  active: Boolean
+  comment: String
+  course: ID
+  id: String!
+  user: ID
 }
 
 input UpdateUserCourseProgressInput {
@@ -227,6 +277,22 @@ type User {
   phoneNumber: String!
   userName: String!
   userRole: String!
+}
+
+type UserCourseAccess {
+  _id: ID!
+
+  """Дата окончания доступа"""
+  accessEndDate: DateTime
+
+  """Дата начала доступа"""
+  accessStartDate: DateTime
+  active: Boolean!
+
+  """Дополнительные примечания"""
+  comment: String
+  course: Course!
+  user: User!
 }
 
 type UserCourseProgress {
