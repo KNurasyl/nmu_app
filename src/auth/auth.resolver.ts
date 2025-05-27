@@ -1,9 +1,9 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthGuard } from 'src/common/guard/auth.guard';
+import { GqlContext } from 'src/common/types/ctx';
 import { AuthService } from './auth.service';
 import { LoginInput } from './dto/login.input';
-import { RefreshInput } from './dto/refresh.input';
 import { RegisterInput } from './dto/register.input';
 import { AuthResponse } from './model/auth-response.model';
 
@@ -17,19 +17,20 @@ export class AuthResolver {
   }
 
   @Mutation(() => AuthResponse)
-  async login(@Args('input') input: LoginInput) {
-    return await this.authService.login(input);
+  async login(@Args('input') input: LoginInput, @Context() ctx: GqlContext) {
+    return await this.authService.login(input, ctx);
   }
 
   @Mutation(() => AuthResponse)
-  async refreshTokens(@Args('input') input: RefreshInput) {
-    return await this.authService.refreshTokens(input.userId, input.refreshToken);
+  async refreshTokens(@Context() ctx: GqlContext) {
+    return this.authService.refreshTokensFromCookie(ctx);
   }
 
   @Mutation(() => Boolean)
   @UseGuards(AuthGuard)
-  async logout(@Args('userId') userId: string) {
+  async logout(@Args('userId') userId: string, @Context() ctx: GqlContext) {
     await this.authService.logout(userId);
+    ctx.res.clearCookie('refreshToken', { path: '/' });
     return true;
   }
 }

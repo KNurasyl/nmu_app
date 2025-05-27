@@ -131,7 +131,7 @@ type Mutation {
   createUserTaskProgress(createUserTaskProgressInput: CreateUserTaskProgressInput!): UserTaskProgress!
   login(input: LoginInput!): AuthResponse!
   logout(userId: String!): Boolean!
-  refreshTokens(input: RefreshInput!): AuthResponse!
+  refreshTokens: AuthResponse!
   register(input: RegisterInput!): AuthResponse!
   removeCourseById(id: String!): Course!
   removeLessonById(id: String!): Lesson!
@@ -165,11 +165,6 @@ type Query {
   userCourseProgress(id: String!): UserCourseProgress!
   userLessonProgress(id: String!): UserLessonProgress!
   userTaskProgress(id: String!): UserTaskProgress!
-}
-
-input RefreshInput {
-  refreshToken: String!
-  userId: ID!
 }
 
 input RegisterInput {

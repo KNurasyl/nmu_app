@@ -32,6 +32,12 @@ export class UserService {
     return user;
   }
 
+  async findByRefreshToken(refreshToken: string): Promise<User> {
+    const user = await this.userModel.findOne({ refreshToken }).exec();
+    if (!user) throw new NotFoundException(`User with refreshToken: ${refreshToken} not found`);
+    return user;
+  }
+
   async update(id: string, updateUserInput: UpdateUserInput): Promise<User> {
     const user = await this.userModel.findByIdAndUpdate(id, updateUserInput, {
       new: true,

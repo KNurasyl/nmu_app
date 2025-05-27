@@ -7,7 +7,7 @@ export class AuthResponse {
   accessToken: string;
 
   @Field()
-  refreshToken: string;
+  refreshToken?: string;
 
   @Field(() => User)
   user: User;
