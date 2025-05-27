@@ -62,11 +62,9 @@ export class AuthService {
     const refreshToken = cookies?.['refreshToken'];
     if (!refreshToken) throw new UnauthorizedException('No refresh token found');
 
-    // Найди пользователя по refreshToken (или проверь по id, но обязательно проверь совпадение токенов)
     const user = await this.userService.findByRefreshToken(refreshToken);
     if (!user) throw new UnauthorizedException('Invalid refresh token');
 
-    // Проверь токен через jwtService
     try {
       this.jwtService.verify(refreshToken);
     } catch {
@@ -76,7 +74,6 @@ export class AuthService {
     const tokens = this.generateTokens(user);
     await this.userService.updateRefreshToken(user._id, tokens.refreshToken);
 
-    // Обнови cookie с новым refreshToken
     ctx.res.cookie('refreshToken', tokens.refreshToken, {
       httpOnly: true,
       sameSite: 'lax',

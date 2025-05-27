@@ -141,6 +141,7 @@ type Mutation {
   removeUserCourseProgress(id: String!): UserCourseProgress!
   removeUserLessonProgress(id: String!): UserLessonProgress!
   removeUserTaskProgress(id: String!): UserTaskProgress!
+  seedUsers: String!
   updateCourseById(updateCourseInput: UpdateCourseInput!): Course!
   updateLessonById(updateLessonInput: UpdateLessonInput!): Lesson!
   updateTaskById(updateTaskInput: UpdateTaskInput!): Task!
@@ -161,6 +162,7 @@ type Query {
   getTasksByLesson(lessonId: String!): [Task!]!
   getUserById(id: String!): User!
   getUsers: [User!]!
+  getUsersPaginated(args: UserListArgs!): UserPaginated!
   userCourseAccess(id: String!): UserCourseAccess!
   userCourseProgress(id: String!): UserCourseProgress!
   userLessonProgress(id: String!): UserLessonProgress!
@@ -314,6 +316,18 @@ type UserLessonProgress {
   """Optional score or percent (0-100)"""
   score: Int
   user: User!
+}
+
+input UserListArgs {
+  page: Int
+  pageSize: Int
+  roles: [String!]
+  search: String
+}
+
+type UserPaginated {
+  total: Int!
+  users: [User!]!
 }
 
 type UserTaskProgress {

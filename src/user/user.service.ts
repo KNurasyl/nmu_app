@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { UserListArgs } from './dto/user-list.args';
 import { User, UserDocument } from './entities/user.entity';
 
 @Injectable()
@@ -18,6 +19,27 @@ export class UserService {
 
   async findAll(): Promise<User[]> {
     return await this.userModel.find().exec();
+  }
+
+  async findAllPaginated(args: UserListArgs) {
+    const { page, pageSize, roles, search } = args;
+
+    const skip = (parseInt(page) - 1) * parseInt(pageSize);
+    const filter: FilterQuery<UserDocument> = {};
+
+    if (roles && roles.length > 0) {
+      filter.userRole = { $in: roles };
+    }
+    if (search) {
+      filter.$or = [
+        { userName: { $regex: search, $options: 'i' } },
+        { phoneNumber: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    const users = await this.userModel.find(filter).skip(skip).limit(parseInt(pageSize));
+    const total = await this.userModel.countDocuments(filter);
+    return { total, users };
   }
 
   async findOne(id: string): Promise<User> {
