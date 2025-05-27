@@ -149,6 +149,7 @@ type Mutation {
   updateUserCourseAccess(updateUserCourseAccessInput: UpdateUserCourseAccessInput!): UserCourseAccess!
   updateUserCourseProgress(updateUserCourseProgressInput: UpdateUserCourseProgressInput!): UserCourseProgress!
   updateUserLessonProgress(updateUserLessonProgressInput: UpdateUserLessonProgressInput!): UserLessonProgress!
+  updateUserPassword(updatePasswordInput: UpdatePasswordInput!): User!
   updateUserTaskProgress(updateUserTaskProgressInput: UpdateUserTaskProgressInput!): UserTaskProgress!
 }
 
@@ -200,6 +201,12 @@ input UpdateLessonInput {
   lessonName: String
   order: Float
   videoUrl: String
+}
+
+input UpdatePasswordInput {
+  newPassword: String!
+  oldPassword: String!
+  userId: String!
 }
 
 input UpdateTaskInput {

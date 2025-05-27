@@ -1,5 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateUserInput } from './dto/create-user.input';
+import { UpdatePasswordInput } from './dto/update-password.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserPaginated } from './dto/user-list';
 import { UserListArgs } from './dto/user-list.args';
@@ -37,6 +38,11 @@ export class UserResolver {
   @Mutation(() => User, { name: 'updateUserById' })
   updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return this.userService.update(updateUserInput.id, updateUserInput);
+  }
+
+  @Mutation(() => User)
+  async updateUserPassword(@Args('updatePasswordInput') input: UpdatePasswordInput) {
+    return this.userService.updatePassword(input);
   }
 
   @Mutation(() => User, { name: 'removeUserById' })
