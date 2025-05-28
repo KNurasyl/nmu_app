@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CreateUserCourseAccessInput } from './dto/create-user-course-access.input';
 import { UpdateUserCourseAccessInput } from './dto/update-user-course-access.input';
 import { UserCourseAccess, UserCourseAccessDocument } from './entities/user-course-access.entity';
@@ -13,7 +13,11 @@ export class UserCourseAccessService {
   ) {}
 
   async create(input: CreateUserCourseAccessInput): Promise<UserCourseAccess> {
-    const created = new this.accessModel(input);
+    const created = new this.accessModel({
+      ...input,
+      user: new mongoose.Types.ObjectId(input.user),
+      course: new mongoose.Types.ObjectId(input.course),
+    });
     return await created.save();
   }
 

@@ -278,6 +278,7 @@ input UpdateUserTaskProgressInput {
 
 type User {
   _id: ID!
+  courseAccesses: [UserCourseAccess!]
   phoneNumber: String!
   userName: String!
   userRole: String!

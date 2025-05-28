@@ -13,5 +13,6 @@ import { UserCourseAccessService } from './user-course-access.service';
     CourseModule,
   ],
   providers: [UserCourseAccessResolver, UserCourseAccessService],
+  exports: [UserCourseAccessService],
 })
 export class UserCourseAccessModule {}

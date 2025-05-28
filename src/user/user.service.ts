@@ -45,7 +45,10 @@ export class UserService {
   }
 
   async findOne(id: string): Promise<User> {
-    const user = await this.userModel.findById(id);
+    const user = await this.userModel
+      .findById(id)
+      .populate({ path: 'courseAccesses', populate: { path: 'course' } })
+      .exec();
     if (!user) throw new NotFoundException(`User #${id} not found`);
     return user;
   }
