@@ -159,6 +159,7 @@ type Query {
   getCourses: [Course!]!
   getLessonById(id: String!): Lesson!
   getLessons: [Lesson!]!
+  getLessonsByCourseId(courseId: String!): [Lesson!]!
   getTaskById(id: String!): Task!
   getTasksByLesson(lessonId: String!): [Task!]!
   getUserById(id: String!): User!
@@ -166,6 +167,7 @@ type Query {
   getUsersPaginated(args: UserListArgs!): UserPaginated!
   userCourseAccess(id: String!): UserCourseAccess!
   userCourseProgress(id: String!): UserCourseProgress!
+  userCourseProgressByUser(userId: String!): [UserCourseProgress!]!
   userLessonProgress(id: String!): UserLessonProgress!
   userTaskProgress(id: String!): UserTaskProgress!
 }

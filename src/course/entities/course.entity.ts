@@ -31,7 +31,7 @@ export const CourseSchema = SchemaFactory.createForClass(Course);
 CourseSchema.virtual('lessons', {
   ref: 'Lesson',
   localField: '_id',
-  foreignField: 'lesson',
+  foreignField: 'course',
 });
 
 CourseSchema.set('toObject', { virtuals: true });

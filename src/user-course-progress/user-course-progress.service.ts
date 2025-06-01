@@ -37,6 +37,12 @@ export class UserCourseProgressService {
     return found;
   }
 
+  async findByUser(userId: string): Promise<UserCourseProgress[]> {
+    const found = await this.courseProgressModel.find({ user: userId }).populate('user').populate('course').exec();
+    if (!found) throw new NotFoundException(`Прогресс по курсу с userId ${userId} не найден`);
+    return found;
+  }
+
   async update(id: string, input: UpdateUserCourseProgressInput): Promise<UserCourseProgress> {
     const updated = await this.courseProgressModel.findByIdAndUpdate(id, input, {
       new: true,

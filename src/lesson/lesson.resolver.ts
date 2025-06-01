@@ -23,6 +23,11 @@ export class LessonResolver {
     return this.lessonService.findOne(id);
   }
 
+  @Query(() => [Lesson], { name: 'getLessonsByCourseId' })
+  findByCourse(@Args('courseId', { type: () => String }) courseId: string) {
+    return this.lessonService.findByCourse(courseId);
+  }
+
   @Mutation(() => Lesson, { name: 'updateLessonById' })
   updateLesson(@Args('updateLessonInput') updateLessonInput: UpdateLessonInput) {
     return this.lessonService.update(updateLessonInput.id, updateLessonInput);

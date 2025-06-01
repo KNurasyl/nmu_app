@@ -22,7 +22,7 @@ export class CourseService {
   }
 
   async findAll(): Promise<Course[]> {
-    return await this.courseModel.find().exec();
+    return await this.courseModel.find().populate('lessons').exec();
   }
 
   async findOne(id: string): Promise<Course> {

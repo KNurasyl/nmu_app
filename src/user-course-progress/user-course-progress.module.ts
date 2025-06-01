@@ -22,5 +22,6 @@ import { UserCourseProgressService } from './user-course-progress.service';
     LessonModule,
   ],
   providers: [UserCourseProgressResolver, UserCourseProgressService],
+  exports: [UserCourseProgressService],
 })
 export class UserCourseProgressModule {}

@@ -27,6 +27,10 @@ export class LessonService {
     return lesson;
   }
 
+  async findByCourse(courseId: string): Promise<Lesson[]> {
+    return await this.lessonModel.find({ course: courseId }).exec();
+  }
+
   async findAllByCourse(courseId: string): Promise<Lesson[]> {
     const lessons = await this.lessonModel.find({ course: courseId }).exec();
     if (!lessons) throw new NotFoundException(`Lesson by course id #${courseId} not found`);

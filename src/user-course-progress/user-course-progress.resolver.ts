@@ -20,6 +20,11 @@ export class UserCourseProgressResolver {
     return this.userCourseProgressService.findAll();
   }
 
+  @Query(() => [UserCourseProgress], { name: 'userCourseProgressByUser' })
+  findByUser(@Args('userId') userId: string) {
+    return this.userCourseProgressService.findByUser(userId);
+  }
+
   @Query(() => UserCourseProgress, { name: 'userCourseProgress' })
   findOne(@Args('id') id: string) {
     return this.userCourseProgressService.findOne(id);
